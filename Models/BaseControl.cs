@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleFrontend.Helpers;
 
 namespace ConsoleFrontend.Models
 {
@@ -26,15 +27,8 @@ namespace ConsoleFrontend.Models
         private string _name;
         public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged(); } }
 
-        private int _contentWidth;
-        public int ContentWidth { get { return _contentWidth; } set { _contentWidth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(TotalWidth)); } }
-
         public abstract int TotalWidth { get; }
-        
         public abstract int TotalHeight { get; }
-
-        private int _contentHeight;
-        public int ContentHeight { get { return _contentHeight; } set { _contentHeight = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(TotalHeight)); } }
 
         private int _y;
         public int Y { get { return _y; } set { _y = value; NotifyPropertyChanged(); } }
@@ -51,12 +45,15 @@ namespace ConsoleFrontend.Models
         private bool _stretchHorizontal;
         public virtual bool StretchHorizontal {get{return _stretchHorizontal;} set{_stretchHorizontal=value; NotifyPropertyChanged();}}
 
-        private VerticalAnchor _verticalAnchor = VerticalAnchor.Top;
-        public VerticalAnchor VerticalAnchor { get { return _verticalAnchor;} set{ _verticalAnchor = value; NotifyPropertyChanged(); } }
+        protected VerticalAnchor _verticalAnchor = VerticalAnchor.Top;
+        public virtual VerticalAnchor VerticalAnchor { get { return _verticalAnchor;} set{ _verticalAnchor = value; NotifyPropertyChanged(); } }
 
         private bool _stretchVertical;
         public bool StretchVertical {get{return _stretchVertical;} set{_stretchVertical = value; NotifyPropertyChanged();}}
 
-        public abstract string[] Render(int? overrideWidth = null, int? overrideHeight = null);
+        private BaseContent _content;
+        public BaseContent Content { get { return _content; } set { _content = value; NotifyPropertyChanged(); } }
+
+        public abstract List<string> Render(int? overrideWidth = null, int? overrideHeight = null);
     }
 }

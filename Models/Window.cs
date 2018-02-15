@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ConsoleFrontend.Models
 {
-    public class Window : BaseControl
+    public class Window 
     {
         public string UpperLeftBorder = "╔";
         public string UpperRightBorder = "╗";
@@ -18,11 +18,10 @@ namespace ConsoleFrontend.Models
         public string RightIntersection = "╢";
         public string Cross = "╬";
 
-        public override int TotalWidth => ContentWidth + 2 * BorderWidth;
-        public override int TotalHeight => ContentHeight + 2 * BorderHeight;
+        //public override int TotalWidth => ContentWidth + 2 * BorderWidth;
+        //public override int TotalHeight => ContentHeight + 2 * BorderHeight;
 
-        protected IControlContent Content {get; set;}
-
+        /*
         public override string[] Render(int? overrideWidth, int? overrideHeight)
         {
             var builder = new List<string>();
@@ -50,5 +49,6 @@ namespace ConsoleFrontend.Models
 
             return builder.ToArray();
         }
+        */
     }
 }

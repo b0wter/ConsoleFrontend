@@ -7,15 +7,15 @@ using ConsoleFrontend.Helpers;
 namespace ConsoleFrontend.Models
 {
     ///<summary>
-    /// Dialoge fungieren als kleine Statusfenster und werden in der folgenden Form gerendet:
+    /// Dialoge act as popups to display a small amount of information in the following form:
     ///
     /// ┌─┤ ConsoleFrontend ├─┐
-    /// │ Dies ist ein:       │
-    /// │ Test.               │
+    /// │ This is a simple    │
+    /// │ test.               │
     /// └─────────────────────┘
     ///
     /// </summary>
-    public abstract class Dialog : BaseControl
+    public class Dialog : BaseControl
     {
         public string UpperLeftBorder = "┌";
         public string UpperRightBorder = "┐";
@@ -27,12 +27,46 @@ namespace ConsoleFrontend.Models
         public string RightIntersection = "┤";
         public string Cross = "┼";
 
-        public override int TotalWidth => ContentWidth + 2 * BorderWidth;
-        public override int TotalHeight => ContentHeight + 2 * BorderHeight;
+        public override int TotalWidth => Content.ActualWidth + 2 * BorderWidth;
+        public override int TotalHeight => Content.ActualHeight + 2 * BorderHeight;
+        
+        public override List<string> Render(int? overrideWidth = null, int? overrideHeight = null)
+        {
+            var targetWidth = overrideWidth ?? TotalWidth;
+            var targetHeight = overrideHeight ?? TotalHeight;
+            
+            var builder = new List<string>();
+            
+            // Header
+            //              ┌   ─   ┤   _   $NAME           _   ├   ─   ┐
+            int minLength = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
+            int headerSpaces = Math.Max(0, targetWidth - minLength);
+            string header = UpperLeftBorder + HorizontalLine + RightIntersection + " " + Name + " " + LeftIntersection + (new String(HorizontalLine.First(), headerSpaces)) + HorizontalLine + UpperRightBorder;
+            builder.Add(header);
+            
+            // Content
+            //
+            var content = Content.Render(targetWidth).SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
+            while (content.Count() < targetHeight - 3)
+                content.Add("");
+            foreach(var line in content)
+            {
+                string l = VerticalLine + " " + line.PadRight(Content.ActualWidth) + " " + VerticalLine;
+                builder.Add(l);
+            }
 
-        protected IControlContent Content {get; set;}
+            // Footer
+            //
+            string footer = LowerLeftBorder + (new String(HorizontalLine.First(), targetWidth - 2)) + LowerRightBorder;
+            builder.Add(footer);
+
+            return builder;
+        }
     }
     
+    /// <summary>
+    /// Dialog that contains
+    /// </summary>
     public class MessageDialog : Dialog
     {
         //private string _content;
@@ -42,7 +76,7 @@ namespace ConsoleFrontend.Models
         {
             Content = new TextContent(content);
             this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            this.ContentWidth = Math.Max(content.Length, 4 + Name.Length);
+            this.Content.Width = Math.Max(content.Length, 4 + Name.Length);
             this.Y = y;
             this.X = x;
         }
@@ -50,36 +84,9 @@ namespace ConsoleFrontend.Models
         public MessageDialog(string content, int width, int x, int y)
             : this(content, x, y)
         {
-            this.ContentWidth = width;
+            this.Content.Width = width;
         }
 
-        public override string[] Render(int? overrideWidth, int? overrideHeight)
-        {
-            var builder = new List<string>();
-            
-            // Header
-            //              ┌   ─   ┤   _   $NAME           _   ├   ─   ┐
-            int minLength = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
-            int headerSpaces = Math.Max(0, TotalWidth - minLength);
-            string header = UpperLeftBorder + HorizontalLine + RightIntersection + " " + Name + " " + LeftIntersection + (new String(HorizontalLine.First(), headerSpaces)) + HorizontalLine + UpperRightBorder;
-            builder.Add(header);
-            
-            // Content
-            //
-            var content = Content.Render(ContentWidth).SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None));
-            foreach(var line in content)
-            {
-                string l = VerticalLine + " " + line.PadRight(ContentWidth) + " " + VerticalLine;
-                builder.Add(l);
-            }
-
-            // Footer
-            //
-            string footer = LowerLeftBorder + (new String(HorizontalLine.First(), TotalWidth - 2)) + LowerRightBorder;
-            builder.Add(footer);
-
-            return builder.ToArray();
-        }
     }
 }
 
