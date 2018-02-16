@@ -93,6 +93,16 @@ namespace ConsoleFrontend.Helpers
             }
         }
 
+        private BaseControl _parent;
+        /// <summary>
+        /// Reference to the parent containing this element.
+        /// </summary>
+        public BaseControl Parent
+        {
+            get => _parent;
+            set { _parent = value; NotifyPropertyChanged(); }
+        }
+
         public abstract List<string> Render(int width);
         
         /// <summary>
@@ -115,7 +125,7 @@ namespace ConsoleFrontend.Helpers
     {
         private const int DefaultWidth = 20;
         private string _content;
-        public string Content { get { return _content; } set { _content = value; } }
+        public string Content { get => _content; set { _content = value; NotifyPropertyChanged(); } }
 
         protected TextContent()
         {

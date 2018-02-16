@@ -54,6 +54,13 @@ namespace ConsoleFrontend.Models
         private BaseContent _content;
         public BaseContent Content { get { return _content; } set { _content = value; NotifyPropertyChanged(); } }
 
+        private BaseControl _parent;
+        public BaseControl Parent
+        {
+            get => _parent;
+            set { _parent = value; NotifyPropertyChanged(); }
+        }
+
         public abstract List<string> Render(int? overrideWidth = null, int? overrideHeight = null);
     }
 }
