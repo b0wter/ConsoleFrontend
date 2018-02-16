@@ -41,9 +41,6 @@ namespace ConsoleFrontend.Models
         }
         public char Border { get; set; } = '─';
 
-        //public override int TotalHeight => Content.ActualHeight + 1;
-        //public override int TotalWidth => 0;
-
         public StatusBar(string content)
         {
             Content = new TextView(content);

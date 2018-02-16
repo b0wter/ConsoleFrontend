@@ -6,6 +6,7 @@ using ConsoleFrontend.Models;
 
 namespace ConsoleFrontend.Helpers
 {
+    [Obsolete("Just kept for reference.")]
     public abstract class BaseContent : BaseModel
     {
         /// <summary>
@@ -121,6 +122,7 @@ namespace ConsoleFrontend.Helpers
     /// Implementation of <see cref="BaseContent"/> which displays simple text.
     /// New lines in the text content are honored.
     /// </summary>
+    [Obsolete("Just kept for reference.")]
     public class TextContent : BaseContent
     {
         private const int DefaultWidth = 20;

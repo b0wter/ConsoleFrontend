@@ -6,9 +6,6 @@ namespace ConsoleFrontend.Models
 {
     public class TextView : BaseControl
     {
-        //public override int TotalWidth { get; }
-        //public override int TotalHeight { get; }
-
         private string _text;
         /// <summary>
         /// Text content of this control.

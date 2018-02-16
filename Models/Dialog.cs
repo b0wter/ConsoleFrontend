@@ -18,18 +18,17 @@ namespace ConsoleFrontend.Models
     /// </summary>
     public class Dialog : BaseControl
     {
-        public string UpperLeftBorder = "┌";
-        public string UpperRightBorder = "┐";
-        public string LowerLeftBorder = "└";
-        public string LowerRightBorder = "┘";
-        public string HorizontalLine = "─";
-        public string VerticalLine = "│";
-        public string LeftIntersection = "├";
-        public string RightIntersection = "┤";
+        // ReSharper disable MemberCanBePrivate.Global
+        public string UpperLeftBorder   { get; set; } = "┌";
+        public string UpperRightBorder  { get; set; }= "┐";
+        public string LowerLeftBorder   { get; set; }= "└";
+        public string LowerRightBorder  { get; set; }= "┘";
+        public string HorizontalLine    { get; set; }= "─";
+        public string VerticalLine      { get; set; }= "│";
+        public string LeftIntersection  { get; set; }= "├";
+        public string RightIntersection { get; set; }= "┤";
         public string Cross = "┼";
-
-        //public override int TotalWidth => Content.ActualWidth + 2 * BorderWidth;
-        //public override int TotalHeight => Content.ActualHeight + 2 * BorderHeight;
+        // ReSharper restore MemberCanBePrivate.Global
 
         public override int ContentWidth => ActualWidth - 4;
         public override int ContentHeight => ActualHeight - 2;

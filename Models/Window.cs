@@ -8,18 +8,15 @@ namespace ConsoleFrontend.Models
 {
     public class Window 
     {
-        public string UpperLeftBorder = "╔";
-        public string UpperRightBorder = "╗";
-        public string LowerLeftBorder = "╚";
-        public string LowerRightBorder = "╝";
-        public string HorizontalLine = "═";
-        public string VerticalLine = "║";
-        public string LeftIntersection = "╟";
-        public string RightIntersection = "╢";
-        public string Cross = "╬";
-
-        //public override int TotalWidth => ContentWidth + 2 * BorderWidth;
-        //public override int TotalHeight => ContentHeight + 2 * BorderHeight;
+        public string UpperLeftBorder   { get; set; } = "╔";
+        public string UpperRightBorder  { get; set; } = "╗";
+        public string LowerLeftBorder   { get; set; } = "╚";
+        public string LowerRightBorder  { get; set; } = "╝";
+        public string HorizontalLine    { get; set; } = "═";
+        public string VerticalLine      { get; set; } = "║";
+        public string LeftIntersection  { get; set; } = "╟";
+        public string RightIntersection { get; set; } = "╢";
+        public string Cross             { get; set; } = "╬";
 
         /*
         public override string[] Render(int? overrideWidth, int? overrideHeight)
