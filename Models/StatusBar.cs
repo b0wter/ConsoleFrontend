@@ -16,7 +16,17 @@ namespace ConsoleFrontend.Models
     /// </summary>
     public class StatusBar : BaseControl
     {
+        private bool _hasSeparator;
+        public bool HasSeparator
+        {
+            get => _hasSeparator;
+            set { _hasSeparator = value; NotifyPropertyChanged(); }
+        }
+
         // Statusbar is only useable in stretched-mode
+        public override int ContentWidth  => Width;
+        public override int ContentHeight => Height - (HasSeparator ? 1 : 0);
+        
         public override bool StretchHorizontal { get => true; set{ ; } }
         public override VerticalAnchor VerticalAnchor
         {
@@ -31,18 +41,18 @@ namespace ConsoleFrontend.Models
         }
         public char Border { get; set; } = '─';
 
-        public override int TotalHeight => Content.ActualHeight + 1;
-        public override int TotalWidth => 0;
+        //public override int TotalHeight => Content.ActualHeight + 1;
+        //public override int TotalWidth => 0;
 
         public StatusBar(string content)
         {
-            Content = new TextContent(content);
+            Content = new TextView(content);
         }
 
-        public override List<string> Render(int? overrideWidth, int? overrideHeight)
+        public override List<string> Render()
         {
-            var targetWidth = overrideWidth ?? TotalWidth;
-            var targetHeight = overrideHeight ?? TotalHeight;
+            var targetWidth = Math.Min(Parent.Width, Width);
+            var targetHeight = Math.Min(Parent.Height, Height);
 
             var builder = new List<string>();
             
@@ -50,9 +60,9 @@ namespace ConsoleFrontend.Models
             
             builder.Add(sepratator);
             if(VerticalAnchor == VerticalAnchor.Bottom)
-                builder.AddRange(Content.Render(targetWidth));
+                builder.AddRange(Content.Render());
             else
-                builder.InsertRange(0, Content.Render(targetWidth));
+                builder.InsertRange(0, Content.Render());
             
             return builder;
         }

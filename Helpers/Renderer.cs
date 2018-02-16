@@ -8,15 +8,25 @@ namespace ConsoleFrontend.Helpers
 {
     class Renderer
     {
-        public void Render(IEnumerable<BaseControl> objects)
+        public void Render(Frame root)
         {
-            var orderedObjects = objects.OrderBy(x => x.ZIndex);
-            foreach(var o in orderedObjects)
+            root.Width = Console.WindowWidth - 1;
+            root.Height = Console.WindowHeight - 1;
+
+            var rendered = root.Render();
+
+            Console.CursorTop = 0;
+            Console.CursorVisible = false;
+
+            foreach (var line in rendered)
             {
-                Render(o);
+                Console.CursorLeft = 0;
+                Console.Write(line);
+                Console.CursorTop++;
             }
         }
 
+        /*
         private void Render(BaseControl c)
         {
             switch(c.VerticalAnchor)
@@ -59,5 +69,6 @@ namespace ConsoleFrontend.Helpers
                 Console.CursorTop++;
             }
         }
+        */
     }
 }

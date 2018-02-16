@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ConsoleFrontend.Helpers;
 
@@ -27,31 +28,33 @@ namespace ConsoleFrontend.Models
         public string RightIntersection = "┤";
         public string Cross = "┼";
 
-        public override int TotalWidth => Content.ActualWidth + 2 * BorderWidth;
-        public override int TotalHeight => Content.ActualHeight + 2 * BorderHeight;
-        
-        public override List<string> Render(int? overrideWidth = null, int? overrideHeight = null)
+        //public override int TotalWidth => Content.ActualWidth + 2 * BorderWidth;
+        //public override int TotalHeight => Content.ActualHeight + 2 * BorderHeight;
+
+        public override int ContentWidth => ActualWidth - 4;
+        public override int ContentHeight => ActualHeight - 2;
+
+        public override List<string> Render()
         {
-            var targetWidth = overrideWidth ?? TotalWidth;
-            var targetHeight = overrideHeight ?? TotalHeight;
-            
             var builder = new List<string>();
-            
             // Header
             //              ┌   ─   ┤   _   $NAME           _   ├   ─   ┐
             int minLength = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
-            int headerSpaces = Math.Max(0, targetWidth - minLength);
+
+            var targetWidth = Math.Max(minLength, ActualWidth);
+            
+            int headerSpaces = Math.Max(0, ActualWidth - minLength);
             string header = UpperLeftBorder + HorizontalLine + RightIntersection + " " + Name + " " + LeftIntersection + (new String(HorizontalLine.First(), headerSpaces)) + HorizontalLine + UpperRightBorder;
             builder.Add(header);
             
             // Content
             //
-            var content = Content.Render(targetWidth).SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
-            while (content.Count() < targetHeight - 3)
+            var content = Content.Render().SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
+            while (content.Count() < ActualHeight - 2)
                 content.Add("");
             foreach(var line in content)
             {
-                string l = VerticalLine + " " + line.PadRight(Content.ActualWidth) + " " + VerticalLine;
+                string l = VerticalLine + " " + line.PadRight(targetWidth - 4) + " " + VerticalLine;
                 builder.Add(l);
             }
 
@@ -67,26 +70,27 @@ namespace ConsoleFrontend.Models
     /// <summary>
     /// Dialog that contains
     /// </summary>
-    public class MessageDialog : Dialog
+    public sealed class MessageDialog : Dialog
     {
-        //private string _content;
-        //public string Content { get { return _content; } set { _content = value; NotifyPropertyChanged(); } }
-
-        public MessageDialog(string content, int x, int y)
+        public MessageDialog(string content)
         {
-            Content = new TextContent(content);
+            Content = new TextView(content);    
             this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            this.Content.Width = Math.Max(content.Length, 4 + Name.Length);
+
+            // To show the full header, see Render()
+            this.Width = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
+        }
+        
+        public MessageDialog(string content, int x, int y, int width, int height)
+            : this(content)
+        {
+            Content = new TextView(content);
+            //this.Content.Width = Math.Max(content.Length, 4 + Name.Length);
             this.Y = y;
             this.X = x;
+            this.Width = Math.Max(this.Width, width);
+            this.Height = height;
         }
-
-        public MessageDialog(string content, int width, int x, int y)
-            : this(content, x, y)
-        {
-            this.Content.Width = width;
-        }
-
     }
 }
 
