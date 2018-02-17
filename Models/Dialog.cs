@@ -20,14 +20,14 @@ namespace ConsoleFrontend.Models
     {
         // ReSharper disable MemberCanBePrivate.Global
         public string UpperLeftBorder   { get; set; } = "┌";
-        public string UpperRightBorder  { get; set; }= "┐";
-        public string LowerLeftBorder   { get; set; }= "└";
-        public string LowerRightBorder  { get; set; }= "┘";
-        public string HorizontalLine    { get; set; }= "─";
-        public string VerticalLine      { get; set; }= "│";
-        public string LeftIntersection  { get; set; }= "├";
-        public string RightIntersection { get; set; }= "┤";
-        public string Cross = "┼";
+        public string UpperRightBorder  { get; set; } = "┐";
+        public string LowerLeftBorder   { get; set; } = "└";
+        public string LowerRightBorder  { get; set; } = "┘";
+        public string HorizontalLine    { get; set; } = "─";
+        public string VerticalLine      { get; set; } = "│";
+        public string LeftIntersection  { get; set; } = "├";
+        public string RightIntersection { get; set; } = "┤";
+        public string Cross             { get; set; } = "┼";
         // ReSharper restore MemberCanBePrivate.Global
 
         public override int ContentWidth => ActualWidth - 4;

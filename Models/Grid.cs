@@ -1,39 +1,64 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace ConsoleFrontend.Models
 {
     public class Grid : BaseControl
     {
-        public string UpperLeftBorder   { get; set; } = "┌";
-        public string UpperRightBorder  { get; set; }= "┐";
-        public string LowerLeftBorder   { get; set; }= "└";
-        public string LowerRightBorder  { get; set; }= "┘";
-        public string HorizontalLine    { get; set; }= "─";
-        public string VerticalLine      { get; set; }= "│";
-        public string LeftIntersection  { get; set; }= "├";
-        public string RightIntersection { get; set; }= "┤";
-        public string Cross = "┼";
+        private readonly ObservableCollection<GridCell> _gridCells = new ObservableCollection<GridCell>();
         
-        private ObservableCollection<>
-        
-        private bool _hasBorder = false;
-        /// <summary>
-        /// If true, drawes a border (single cell) around the grid. Reduces the ContentWidth/Height by 2.
-        /// </summary>
-        public bool HasBorder
+        public override int ContentWidth  => ActualWidth;
+        public override int ContentHeight => ActualHeight;
+
+        public Grid()
         {
-            get => _hasBorder;
+            _gridCells.CollectionChanged += GridCellsOnCollectionChanged;
+        }
+
+        /// <summary>
+        /// Checks if the new elements are valid for the given collection.
+        /// * Index in range
+        /// * Index not in use
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="notifyCollectionChangedEventArgs"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void GridCellsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            if (notifyCollectionChangedEventArgs.NewItems == null ||
+                notifyCollectionChangedEventArgs.NewItems.Count == 0)
+                return;
+            
+            _gridCells.GroupBy(x =>)
+        }
+
+        public override List<string> Render()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class GridCell : BaseControl
+    {
+        public override int ContentWidth  => ActualWidth;
+        public override int ContentHeight => ActualHeight;
+
+        
+        
+        public override BaseControl Parent
+        {
+            get => base.Parent;
             set
             {
-                _hasBorder = value;
-                NotifyPropertyChanged();
+                if(typeof(Grid) != value.GetType())
+                    throw new ArgumentException($"The only valid parent for a {nameof(GridCell)} is a {nameof(Grid)}");
+                base.Parent = value;
             }
         }
 
-        public override int ContentWidth  => HasBorder ? ActualWidth - 2 : ActualWidth;
-        public override int ContentHeight => HasBorder ? ActualHeight - 2 : ActualHeight;
-        
         public override List<string> Render()
         {
             throw new System.NotImplementedException();
@@ -43,7 +68,7 @@ namespace ConsoleFrontend.Models
     public class GridColDefinition : BaseModel
     {
         private int _widht;
-        public int Widht
+        public int Width
         {
             get => _widht;
             set => _widht = value;

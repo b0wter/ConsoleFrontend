@@ -152,7 +152,7 @@ namespace ConsoleFrontend.Models
         /// <summary>
         /// Reference to the parent control of this control.
         /// </summary>
-        public BaseControl Parent
+        public virtual BaseControl Parent
         {
             get => _parent;
             set { _parent = value; NotifyPropertyChanged(); }
