@@ -8,7 +8,7 @@ namespace ConsoleFrontend.Helpers
 {
     class Renderer
     {
-        public void Render(Frame root)
+        public void Render(BaseControl root)
         {
             root.Width = Console.WindowWidth - 1;
             root.Height = Console.WindowHeight - 1;
