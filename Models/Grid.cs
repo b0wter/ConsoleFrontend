@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleFrontend.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -32,7 +33,7 @@ namespace ConsoleFrontend.Models
                 notifyCollectionChangedEventArgs.NewItems.Count == 0)
                 return;
             
-            _gridCells.GroupBy(x =>)
+            //_gridCells.GroupBy(x =>)
         }
 
         public override List<string> Render()
@@ -46,7 +47,11 @@ namespace ConsoleFrontend.Models
         public override int ContentWidth  => ActualWidth;
         public override int ContentHeight => ActualHeight;
 
-        
+        private Point _coordinates;
+        /// <summary>
+        /// Coordinate of this cell in the grid cells.
+        /// </summary>
+        public Point Coordinates { get => _coordinates; set { _coordinates = value; NotifyPropertyChanged(); } }
         
         public override BaseControl Parent
         {
