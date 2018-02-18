@@ -6,6 +6,9 @@ using System.Text;
 
 namespace ConsoleFrontend.Models
 {
+    /// <summary>
+    /// Base class for all models that implements <see cref="INotifyPropertyChanged"/>.
+    /// </summary>
     public abstract class BaseModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

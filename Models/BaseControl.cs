@@ -5,14 +5,20 @@ using ConsoleFrontend.Helpers;
 
 namespace ConsoleFrontend.Models
 {
-    public enum HorizontalAnchor
+    /// <summary>
+    /// Possible ways for a control to be anchored in its parent (horizontally).
+    /// </summary>
+    public enum HorizontalAnchors
     {
         Left,
         Center,
         Right
     }
 
-    public enum VerticalAnchor
+    /// <summary>
+    /// Possible ways for a control to be anchored in its parent (vertically).
+    /// </summary>
+    public enum VerticalAnchors
     {
         Top,
         Center,
@@ -22,10 +28,10 @@ namespace ConsoleFrontend.Models
     public abstract class BaseControl : BaseModel
     {
         private string _name;
+        /// <summary>
+        /// Name of this control. Might be used as a title by some controls.
+        /// </summary>
         public string Name { get => _name; set { _name = value; NotifyPropertyChanged(); } }
-
-        //public abstract int TotalWidth { get; }
-        //public abstract int TotalHeight { get; }
 
         private int _width;
         /// <summary>
@@ -105,11 +111,11 @@ namespace ConsoleFrontend.Models
         /// </summary>
         public int ZIndex { get { return _zIndex; } set { _zIndex = value; NotifyPropertyChanged(); } }
 
-        private HorizontalAnchor _horizontalAnchor = HorizontalAnchor.Left;
+        private HorizontalAnchors _horizontalAnchor = HorizontalAnchors.Left;
         /// <summary>
         /// Point of the parent this control is attached to. E.g. left or right.
         /// </summary>
-        public HorizontalAnchor HorizontalAnchor { get => _horizontalAnchor; set{ _horizontalAnchor = value; NotifyPropertyChanged(); } }
+        public HorizontalAnchors HorizontalAnchor { get => _horizontalAnchor; set{ _horizontalAnchor = value; NotifyPropertyChanged(); } }
 
         private bool _stretchHorizontal;
         /// <summary>
@@ -117,11 +123,11 @@ namespace ConsoleFrontend.Models
         /// </summary>
         public virtual bool StretchHorizontal { get => Width == 0 || _stretchHorizontal; set{_stretchHorizontal=value; NotifyPropertyChanged();}}
 
-        protected VerticalAnchor _verticalAnchor = VerticalAnchor.Top;
+        protected VerticalAnchors _verticalAnchor = VerticalAnchors.Top;
         /// <summary>
         /// Point of the parent this control is attached to. E.g. top or bottom.
         /// </summary>
-        public virtual VerticalAnchor VerticalAnchor { get => _verticalAnchor; set{ _verticalAnchor = value; NotifyPropertyChanged(); } }
+        public virtual VerticalAnchors VerticalAnchor { get => _verticalAnchor; set{ _verticalAnchor = value; NotifyPropertyChanged(); } }
 
         private bool _stretchVertical;
         /// <summary>
@@ -129,8 +135,19 @@ namespace ConsoleFrontend.Models
         /// </summary>
         public bool StretchVertical { get => Height == 0 || _stretchVertical; set { _stretchVertical = value; NotifyPropertyChanged();}}
 
-        private BaseControl _content;
+        private string _foregroundColor;
+        /// <summary>
+        /// Foregroundcolor for this control. Needs to be known to the renderer.
+        /// </summary>
+        public string ForegroundColor { get { return _foregroundColor; } set { _foregroundColor = value; NotifyPropertyChanged(); } }
 
+        private string _backgroundColor;
+        /// <summary>
+        /// Backgroundcolor for this control. Needs to be known to the renderer.
+        /// </summary>
+        public string BackgroundColor { get { return _backgroundColor; } set { _backgroundColor = value; NotifyPropertyChanged(); } }
+
+        private BaseControl _content;
         /// <summary>
         /// Content of this control. May be another control, or actual content like text.
         /// </summary>

@@ -28,12 +28,12 @@ namespace ConsoleFrontend.Models
         public override int ContentHeight => Height - (HasSeparator ? 1 : 0);
         
         public override bool StretchHorizontal { get => true; set{ ; } }
-        public override VerticalAnchor VerticalAnchor
+        public override VerticalAnchors VerticalAnchor
         {
             get { return _verticalAnchor;} 
             set
             {
-                if (value != VerticalAnchor.Bottom && value != VerticalAnchor.Top)
+                if (value != VerticalAnchors.Bottom && value != VerticalAnchors.Top)
                     throw new ArgumentException("Status bar only supports top and bottom anchors");
                 else
                     _verticalAnchor = value;
@@ -56,7 +56,7 @@ namespace ConsoleFrontend.Models
             var sepratator = new String('─', targetWidth);
             
             builder.Add(sepratator);
-            if(VerticalAnchor == VerticalAnchor.Bottom)
+            if(VerticalAnchor == VerticalAnchors.Bottom)
                 builder.AddRange(Content.Render());
             else
                 builder.InsertRange(0, Content.Render());

@@ -77,7 +77,7 @@ namespace ConsoleFrontend.Models
             this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
             // To show the full header, see Render()
-            this.Width = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
+            //this.Width = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
         }
         
         public MessageDialog(string content, int x, int y, int width, int height)

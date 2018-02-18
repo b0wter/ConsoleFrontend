@@ -9,41 +9,12 @@ namespace ConsoleFrontend.Helpers
 {
     class Renderer
     {
-        private readonly Dictionary<string, Action> _commands;
-        private readonly string[] _commandNames;
-        private readonly string[] _commandDelimiters = new string[]{"$$"};
+        private readonly DisplayConfiguration _displayConfiguration = new DisplayConfiguration();
 
-        public Renderer()
-        {
-            // Add some regular commands.
-            _commands = new Dictionary<string, Action>
-            {
-                {"NC", Console.ResetColor},
-            };
-
-            // Automatically add the commands to add color.
-            foreach (var color in GetConsoleColors())
-            {
-                _commands.Add("F" + color.Key + "", () => Console.ForegroundColor = color.Value);
-                _commands.Add("B" + color.Key + "", () => Console.BackgroundColor = color.Value);
-            }
-
-            _commandNames = (new List<string>(_commands.Keys)).ToArray();
-        }
-
-        private Dictionary<string, ConsoleColor> GetConsoleColors()
-        {
-            var names = Enum.GetNames(typeof(ConsoleColor));
-            var colors = new Dictionary<string, ConsoleColor>(names.Length);
-            foreach(var name in names)
-                colors.Add(name, (ConsoleColor)Enum.Parse(typeof(ConsoleColor), name));
-            return colors;
-        }
-        
         public void Render(BaseControl root)
         {
             root.Width = Console.WindowWidth-1;
-            root.Height = Console.WindowHeight;
+            root.Height = Console.WindowHeight-1;
 
             var rendered = root.Render();
 
@@ -60,12 +31,12 @@ namespace ConsoleFrontend.Helpers
 
         private void RenderLine(string line)
         {
-            var parts = line.Split(_commandDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            var parts = line.Split(_displayConfiguration.CommandDelimiters, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var part in parts)
             {
-                if (_commands.ContainsKey(part))
-                    _commands[part]();
+                if (_displayConfiguration.Commands.ContainsKey(part))
+                    _displayConfiguration.Commands[part]();
                 else
                     Console.Write(part);
             }

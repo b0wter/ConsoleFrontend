@@ -9,14 +9,25 @@ namespace ConsoleFrontend.Models
 {
     public class Grid : BaseControl
     {
-        private readonly ObservableCollection<GridCell> _gridCells = new ObservableCollection<GridCell>();
-        
+        /// <summary>
+        /// Holds the actual cells this grid contains.
+        /// </summary>
+        public ObservableCollection<GridCell> GridCells { get; } = new ObservableCollection<GridCell>();
+        /// <summary>
+        /// Contains the GridColDefinitions of this grid. Each element represents a single column of this grid.
+        /// </summary>
+        public ObservableCollection<GridColDefinition> GridColDefinitions { get; } = new ObservableCollection<GridColDefinition>();
+        /// <summary>
+        /// Contains the GridRowDefinitions of this grid. Each element represents a single row of this grid.
+        /// </summary>
+        public ObservableCollection<GridRowDefinition> GridRowDefinitions { get; } = new ObservableCollection<GridRowDefinition>();
+
         public override int ContentWidth  => ActualWidth;
         public override int ContentHeight => ActualHeight;
 
         public Grid()
         {
-            _gridCells.CollectionChanged += GridCellsOnCollectionChanged;
+            GridCells.CollectionChanged += GridCellsOnCollectionChanged;
         }
 
         /// <summary>
@@ -32,14 +43,104 @@ namespace ConsoleFrontend.Models
             if (notifyCollectionChangedEventArgs.NewItems == null ||
                 notifyCollectionChangedEventArgs.NewItems.Count == 0)
                 return;
-            
-            //_gridCells.GroupBy(x =>)
+
+            if (GridCells.GroupBy(x => x.Coordinates).Any(x => x.Count() > 1))
+                throw new InvalidOperationException($"Cannot add multiple cells with the same coordinates.");
+
+            if (GridCells.Any(x => x.Coordinates.X >= GridColDefinitions.Count || x.Coordinates.Y >= GridRowDefinitions.Count))
+                throw new InvalidOperationException("Cannot add cell to a coordinate that doesnt exist.");
         }
 
+        /// <summary>
+        /// Creates a string representation of this class to be rendered by a renderer.
+        /// </summary>
+        /// <returns></returns>
         public override List<string> Render()
         {
-            throw new System.NotImplementedException();
+            var cellWidth = (int)Math.Floor(ContentWidth / (float)GridColDefinitions.Count);
+            var cellHeight = (int)Math.Floor(ContentHeight / (float)GridRowDefinitions.Count);
+
+            foreach (var cell in GridCells)
+            {
+                cell.Width = cellWidth;
+                cell.Height = cellHeight;
+            }
+
+            var lines = new List<string>(100); // arbitrary value
+            //var cells = GridCells.Select(x => (x.Coordinates, x.Render()));
+            
+            
+            for(var y = 0; y < GridRowDefinitions.Count; ++y)
+            {
+                // create one row of elements
+
+                var cellsForCurrentRow = GridCells.Where(n => n.Coordinates.Y == y).OrderBy(n => n.Coordinates.X).Select(n => n.Render()); // Coordinates as name is inferred.
+
+                var maxLineCount = cellsForCurrentRow.Max(n => n.Count);
+
+                // add placeholder rows if the cells dont match
+                foreach (var cell in cellsForCurrentRow)
+                    while (cell.Count < maxLineCount)
+                        cell.Add(new string(' ', cellWidth));
+
+                for (int i = 0; i < cellsForCurrentRow.First().Count; ++i)
+                {
+                    var combinedLine = "";
+                    foreach (var cell in cellsForCurrentRow)
+                        combinedLine += cell[i];
+                    lines.Add(combinedLine);
+                }
+
+                /*
+                for(var i = 0; i < cellsForCurrentRow.Max(n => n.Count); ++i)
+                {
+                    foreach(var cell in cellsForCurrentRow)
+                }
+                */
+
+
+                /*  
+                if (cellsForCurrentRow.Any())
+                {
+                    for (var i = 0; i < cellsForCurrentRow.Max(x => x.Item2.Count); ++y)
+                    {
+                        var combinedLine = "";
+                        foreach (var cell in cellsForCurrentRow)
+                        {
+                            if (cell.Item2.Count > i)
+                            {
+                                combinedLine += cell.Item2[i];
+                            }
+                            else
+                            {
+                                combinedLine += new string(' ', cellWidth);
+                            }
+                        }
+                        lines.Add(combinedLine);
+                    }
+                }
+                */
+            }
+
+            return lines;
         }
+
+        public void AddContentAt(int x, int y, BaseControl content)
+        {
+            GridCells.Add(new GridCell(x, y, content));
+        }
+    }
+
+    public enum GridCellSizeModes
+    {
+        /// <summary>
+        /// Makes this cell use the regular size.
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// Tells the grid that this cell should take up all remaining space. If multiple cells define this option the space will be divided evenly.
+        /// </summary>
+        Remaining
     }
 
     public class GridCell : BaseControl
@@ -53,6 +154,12 @@ namespace ConsoleFrontend.Models
         /// </summary>
         public Point Coordinates { get => _coordinates; set { _coordinates = value; NotifyPropertyChanged(); } }
         
+        public GridCell(int x, int y, BaseControl content)
+        {
+            this.Content = content;
+            this.Coordinates = new Point(x, y);
+        }
+
         public override BaseControl Parent
         {
             get => base.Parent;
@@ -66,27 +173,33 @@ namespace ConsoleFrontend.Models
 
         public override List<string> Render()
         {
-            throw new System.NotImplementedException();
+            return Content.Render();
         }
     }
 
-    public class GridColDefinition : BaseModel
+    public abstract class GridColRowDefinition : BaseModel
+    {
+        private GridCellSizeModes _sizeMode;
+        public GridCellSizeModes SizeMode { get { return _sizeMode; } set { _sizeMode = value; NotifyPropertyChanged(); } }
+    }
+
+    public class GridColDefinition : GridColRowDefinition
     {
         private int _widht;
         public int Width
         {
             get => _widht;
-            set => _widht = value;
+            set { _widht = value; NotifyPropertyChanged(); }
         }
     }
 
-    public class GridRowDefinition : BaseModel
+    public class GridRowDefinition : GridColRowDefinition
     {
         private int _height;
         public int Height
         {
             get => _height;
-            set => _height = value;
+            set { _height = value; NotifyPropertyChanged(); }
         }
     }
 }
