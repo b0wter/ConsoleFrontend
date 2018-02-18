@@ -48,7 +48,7 @@ namespace ConsoleFrontend.Models
             
             // Content
             //
-            var content = Content.Render().SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
+            var content = Content.Render();
             while (content.Count() < ActualHeight - 2)
                 content.Add("");
             foreach(var line in content)

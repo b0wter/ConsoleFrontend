@@ -36,6 +36,7 @@ namespace ConsoleFrontend.Models
             var lines = Enumerable.Range(0, rows)
                         .Select(index => Text.Skip(index * Parent.ContentWidth).Take(Parent.ContentWidth))
                         .Select(x => string.Concat(x))
+                        .SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None))
                         .ToList();
             
             if (lines.Count > Parent.ContentHeight)

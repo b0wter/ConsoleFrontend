@@ -11,7 +11,7 @@ namespace ConsoleFrontend
             Console.Clear();
 
             var root = new Frame();
-            var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.sadfsadfsafdsafdsafsafdasfdsafdsafdlkjlqwjrlwqjrljwqrl;wqjre;lqwjr;lwqjre;lwqjre;lwqjoicoeboiebrqwewqwqfewqefwqefwqfewqfwqfejl;j;lj;ljas;ofdijsa;ofdjw;oejowqeoweowoqiejqofeqe", 3, 3, 20, 6);
+            var dialog = new MessageDialog($"$$FRed$$Dies ist ein:{Environment.NewLine}Test.$$NC$$sadfsadfsafdsafdsafsafdasfdsafdsafdlkjlqwjrlwqjrljwqrl;wqjre;lqwjr;lwqjre;lwqjre;lwqjoicoeboiebrqwewqwqfewqefwqefwqfewqfwqfejl;j;lj;ljas;ofdijsa;ofdjw;oejowqeoweowoqiejqofeqe", 3, 3, 20, 6);
             //var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.");
             dialog.ZIndex = 1000;
             dialog.HorizontalAnchor = HorizontalAnchor.Left;
