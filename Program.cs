@@ -18,6 +18,7 @@ namespace ConsoleFrontend
 
             var grid = new Grid();
             grid.GridRowDefinitions.Add(new GridRowDefinition());
+            grid.GridRowDefinitions.Add(new GridRowDefinition());
             grid.GridColDefinitions.Add(new GridColDefinition());
             grid.GridColDefinitions.Add(new GridColDefinition());
             grid.AddContentAt(0, 0, dialog1);

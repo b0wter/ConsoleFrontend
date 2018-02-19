@@ -74,8 +74,10 @@ namespace ConsoleFrontend.Models
             {
                 // create one row of elements
 
-                var cellsForCurrentRow = GridCells.Where(n => n.Coordinates.Y == y).OrderBy(n => n.Coordinates.X).Select(n => n.Render()); // Coordinates as name is inferred.
-
+                var cellsForCurrentRow = GridCells.Where(n => n.Coordinates.Y == y).OrderBy(n => n.Coordinates.X).Select(n => n.Render()).ToList(); // Coordinates as name is inferred.
+                if(!cellsForCurrentRow.Any())
+                    continue;
+                
                 var maxLineCount = cellsForCurrentRow.Max(n => n.Count);
 
                 // add placeholder rows if the cells dont match
