@@ -9,20 +9,24 @@ namespace ConsoleFrontend
         [Obsolete("Current implementation not satisfying.")]
         public static Singleton<DisplayConfiguration> DisplayConfiguration { get; } = new Singleton<DisplayConfiguration>();
 
+        private static Renderer _renderer = new Renderer();
+        private static Grid _grid;
+
         static void Main(string[] args)
         {
             Console.Clear();
 
+            var testModel = new TestModel("Testcontent");
             var dialog1 = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.");
-            var dialog2 = new MessageDialog("Weiterer Test :)");
+            var dialog2 = new BindingDialog(testModel, nameof(TestModel.Text));
 
-            var grid = new Grid();
-            grid.GridRowDefinitions.Add(new GridRowDefinition());
-            grid.GridRowDefinitions.Add(new GridRowDefinition());
-            grid.GridColDefinitions.Add(new GridColDefinition());
-            grid.GridColDefinitions.Add(new GridColDefinition());
-            grid.AddContentAt(0, 0, dialog1);
-            grid.AddContentAt(0, 0, dialog2);
+            _grid = new Grid();
+            _grid.GridRowDefinitions.Add(new GridRowDefinition());
+            _grid.GridRowDefinitions.Add(new GridRowDefinition());
+            _grid.GridColDefinitions.Add(new GridColDefinition());
+            _grid.GridColDefinitions.Add(new GridColDefinition());
+            _grid.SetContentAt(0, 0, dialog1);
+            _grid.SetContentAt(1, 0, dialog2);
 
             /*
             var root = new Frame();
@@ -48,16 +52,23 @@ namespace ConsoleFrontend
             };
             */
 
-            var renderer = new Renderer();
             //renderer.Render(root);
-            renderer.Render(grid);
+            _renderer.Render(_grid);
+            _grid.PropertyChanged += Grid_PropertyChanged;
             //renderer.Render(new BaseControl[] { dialog, topBar, bottomBar });
 
+            testModel.Text = "new text";
+            dialog2.ZIndex = 10;
             Console.CursorVisible = false;
             Console.ReadKey();
 
             Console.CursorVisible = true;
             Console.Clear();
+        }
+
+        private static void Grid_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            _renderer.Render(_grid);
         }
     }
 }

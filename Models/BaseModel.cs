@@ -17,5 +17,10 @@ namespace ConsoleFrontend.Models
             if (string.IsNullOrWhiteSpace(property) == false)
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        protected void TriggerNotifyPropertyChangedFor(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ConsoleFrontend.Helpers;
@@ -65,6 +67,22 @@ namespace ConsoleFrontend.Models
             return builder;
         }
     }
+
+    public class BindingDialog : Dialog
+    {
+        private string _text;
+        public string Text { get { return _text; } set { _text = value; NotifyPropertyChanged(); } }
+
+        private string _targetProperty;
+        private PropertyInfo[] _properties;
+
+
+        public BindingDialog(INotifyPropertyChanged target, string propertyName)
+        {
+            this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            this.Content = new TextView(target, propertyName);
+        }
+    }
     
     /// <summary>
     /// Dialog that contains
@@ -75,9 +93,6 @@ namespace ConsoleFrontend.Models
         {
             Content = new TextView(content);    
             this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-
-            // To show the full header, see Render()
-            //this.Width = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
         }
         
         public MessageDialog(string content, int x, int y, int width, int height)

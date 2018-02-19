@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace ConsoleFrontend.Models
 {
@@ -16,6 +18,9 @@ namespace ConsoleFrontend.Models
             set { _text = value; NotifyPropertyChanged(); }
         }
 
+        private string _targetProperty;
+        private PropertyInfo[] _properties;
+
         public override int ContentWidth  => 0;
         public override int ContentHeight => 0;
 
@@ -29,7 +34,23 @@ namespace ConsoleFrontend.Models
         {
             Text = text;
         }
-        
+
+        public TextView(INotifyPropertyChanged target, string propertyName)
+        {
+            _properties = target.GetType().GetProperties();
+            _targetProperty = propertyName;
+            target.PropertyChanged += Target_PropertyChanged;
+            Target_PropertyChanged(target, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Target_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != _targetProperty)
+                return;
+
+            Text = _properties.First(x => x.Name == e.PropertyName)?.GetValue(sender, null)?.ToString();
+        }
+
         public override List<string> Render()
         {
             var rows = (int) Math.Ceiling(Text.Length / (float)Parent.ContentWidth);

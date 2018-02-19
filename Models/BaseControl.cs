@@ -157,12 +157,21 @@ namespace ConsoleFrontend.Models
             set
             {
                 if (_content != null)
+                {
+                    _content.PropertyChanged -= Content_PropertyChanged;
                     _content.Parent = null;
+                }
                 
                 _content = value;
                 _content.Parent = this;
+                _content.PropertyChanged += Content_PropertyChanged;
                 NotifyPropertyChanged();
             }
+        }
+
+        private void Content_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            TriggerNotifyPropertyChangedFor(sender, e);
         }
 
         private BaseControl _parent;

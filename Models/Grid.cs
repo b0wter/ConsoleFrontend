@@ -67,8 +67,6 @@ namespace ConsoleFrontend.Models
             }
 
             var lines = new List<string>(100); // arbitrary value
-            //var cells = GridCells.Select(x => (x.Coordinates, x.Render()));
-            
             
             for(var y = 0; y < GridRowDefinitions.Count; ++y)
             {
@@ -92,43 +90,16 @@ namespace ConsoleFrontend.Models
                         combinedLine += cell[i];
                     lines.Add(combinedLine);
                 }
-
-                /*
-                for(var i = 0; i < cellsForCurrentRow.Max(n => n.Count); ++i)
-                {
-                    foreach(var cell in cellsForCurrentRow)
-                }
-                */
-
-
-                /*  
-                if (cellsForCurrentRow.Any())
-                {
-                    for (var i = 0; i < cellsForCurrentRow.Max(x => x.Item2.Count); ++y)
-                    {
-                        var combinedLine = "";
-                        foreach (var cell in cellsForCurrentRow)
-                        {
-                            if (cell.Item2.Count > i)
-                            {
-                                combinedLine += cell.Item2[i];
-                            }
-                            else
-                            {
-                                combinedLine += new string(' ', cellWidth);
-                            }
-                        }
-                        lines.Add(combinedLine);
-                    }
-                }
-                */
             }
 
             return lines;
         }
 
-        public void AddContentAt(int x, int y, BaseControl content)
+        public void SetContentAt(int x, int y, BaseControl content)
         {
+            var oldContent = GridCells.Where(n => n.X == x && n.Y == y);
+            foreach()
+            GridCells.Remove(n => n.X == x && n.Y == y);
             GridCells.Add(new GridCell(x, y, content));
         }
     }
