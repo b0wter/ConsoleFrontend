@@ -68,7 +68,8 @@ namespace ConsoleFrontend
 
         private static void Grid_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            _renderer.Render(_grid);
+            if(e.PropertyName == "Content" || e.PropertyName == "Text")
+                _renderer.Render(_grid);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 
 namespace ConsoleFrontend.Models
@@ -40,15 +41,27 @@ namespace ConsoleFrontend.Models
         /// <exception cref="NotImplementedException"></exception>
         private void GridCellsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
+            if(notifyCollectionChangedEventArgs.OldItems != null && notifyCollectionChangedEventArgs.OldItems.Count != 0)
+                foreach (var oldItem in notifyCollectionChangedEventArgs.OldItems)
+                    ((GridCell) oldItem).PropertyChanged -= GridCell_OnPropertyChanged;
+            
             if (notifyCollectionChangedEventArgs.NewItems == null ||
                 notifyCollectionChangedEventArgs.NewItems.Count == 0)
                 return;
+            
+            foreach(var newItem in notifyCollectionChangedEventArgs.NewItems)
+                ((GridCell)newItem).PropertyChanged += GridCell_OnPropertyChanged;
 
             if (GridCells.GroupBy(x => x.Coordinates).Any(x => x.Count() > 1))
                 throw new InvalidOperationException($"Cannot add multiple cells with the same coordinates.");
 
             if (GridCells.Any(x => x.Coordinates.X >= GridColDefinitions.Count || x.Coordinates.Y >= GridRowDefinitions.Count))
                 throw new InvalidOperationException("Cannot add cell to a coordinate that doesnt exist.");
+        }
+
+        private void GridCell_OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            TriggerNotifyPropertyChangedFor(sender, propertyChangedEventArgs);
         }
 
         /// <summary>
@@ -97,8 +110,6 @@ namespace ConsoleFrontend.Models
 
         public void SetContentAt(int x, int y, BaseControl content)
         {
-            var oldContent = GridCells.Where(n => n.X == x && n.Y == y);
-            foreach()
             GridCells.Remove(n => n.X == x && n.Y == y);
             GridCells.Add(new GridCell(x, y, content));
         }
