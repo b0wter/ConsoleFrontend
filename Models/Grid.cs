@@ -55,7 +55,9 @@ namespace ConsoleFrontend.Models
             if (GridCells.GroupBy(x => x.Coordinates).Any(x => x.Count() > 1))
                 throw new InvalidOperationException($"Cannot add multiple cells with the same coordinates.");
 
-            if (GridCells.Any(x => x.Coordinates.X >= GridColDefinitions.Count || x.Coordinates.Y >= GridRowDefinitions.Count))
+            if (GridCells.Any(
+                    c => c.Coordinates.X >= GridColDefinitions.Count && GridColDefinitions.Count != 0 || 
+                         c.Coordinates.Y >= GridRowDefinitions.Count && GridRowDefinitions.Count != 0 ))
                 throw new InvalidOperationException("Cannot add cell to a coordinate that doesnt exist.");
         }
 
@@ -70,7 +72,7 @@ namespace ConsoleFrontend.Models
         /// <returns></returns>
         public override List<string> Render()
         {
-            var cellWidth = (int)Math.Floor(ContentWidth / (float)GridColDefinitions.Count);
+            var cellWidth =  (int)Math.Floor(ContentWidth  / (float)GridColDefinitions.Count);
             var cellHeight = (int)Math.Floor(ContentHeight / (float)GridRowDefinitions.Count);
 
             foreach (var cell in GridCells)

@@ -5,6 +5,7 @@ using ConsoleFrontend.Helpers;
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace ConsoleFrontend.Models
 {
@@ -78,37 +79,27 @@ namespace ConsoleFrontend.Models
     {
         public ObservableCollection<Binding> Bindings { get; private set; } = new ObservableCollection<Binding>();
 
-        private BindingWindow()
-        {
-            Bindings.CollectionChanged += Bindings_CollectionChanged;
-        }
-
         public BindingWindow(params Binding[] bindings)
-            : this()
         {
-            foreach(var binding in bindings)
-                Bindings.Add(binding);
+            var contentRoot = new Grid();
+            this.Name = Assembly.GetExecutingAssembly().GetName().Name;
+
+            for(int i = 0; i < bindings.Length; ++i)
+            {
+                contentRoot.GridRowDefinitions.Add(new GridRowDefinition());
+                contentRoot.SetContentAt(0, i, new TextView(bindings[i].Target, bindings[i].PropertyName));
+            }
+
+            this.Content = contentRoot;
         }
+    }
 
-        private void Bindings_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    public class TextWindow : Window
+    {
+        public TextWindow(string content)
         {
-            if(e.NewItems != null && e.NewItems.Count > 0)
-                foreach(INotifyPropertyChanged item in e.NewItems)
-                    item.PropertyChanged += Item_PropertyChanged;
-
-            if (e.OldItems != null && e.OldItems.Count > 0)
-                foreach (INotifyPropertyChanged item in e.OldItems)
-                       item.PropertyChanged -= Item_PropertyChanged;
-        }
-
-        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            var binding = Bindings.FirstOrDefault(x => x.Target == sender);
-
-            if (binding == null)
-                return;
-
-
+            this.Content = new TextView(content);
+            this.Name = Assembly.GetExecutingAssembly().GetName().Name;
         }
     }
 }

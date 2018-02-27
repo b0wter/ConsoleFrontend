@@ -17,19 +17,25 @@ namespace ConsoleFrontend
             Console.Clear();
 
             var testModel = new TestModel("Testcontent");
-            var dialog1 = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.");
+
+            var binding = new Binding(testModel, nameof(TestModel.Text));
+
+            var dialog1 = new BindingWindow(binding, binding, binding);
             var dialog2 = new BindingDialog(testModel, nameof(TestModel.Text));
 
+            /*
             _grid = new Grid();
             _grid.GridRowDefinitions.Add(new GridRowDefinition());
             _grid.GridRowDefinitions.Add(new GridRowDefinition());
             _grid.GridColDefinitions.Add(new GridColDefinition());
             _grid.GridColDefinitions.Add(new GridColDefinition());
             _grid.SetContentAt(0, 0, dialog1);
-            _grid.SetContentAt(1, 0, dialog2);
+            _grid.SetContentAt(0, 1, dialog2);
+            */
 
-            /*
             var root = new Frame();
+            root.Content = dialog1;
+            /*
             var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.sadfsadfsafdsafdsafsafdasfdsafdsafdlkjlqwjrlwqjrljwqrl;wqjre;lqwjr;lwqjre;lwqjre;lwqjoicoeboiebrqwewqwqfewqefwqefwqfewqfwqfejl;j;lj;ljas;ofdijsa;ofdjw;oejowqeoweowoqiejqofeqe", 3, 3, 20, 6);
             //var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.");
             dialog.ZIndex = 1000;
@@ -52,9 +58,9 @@ namespace ConsoleFrontend
             };
             */
 
-            //renderer.Render(root);
-            _renderer.Render(_grid);
-            _grid.PropertyChanged += Grid_PropertyChanged;
+            _renderer.Render(root);
+            //_renderer.Render(_grid);
+            //_grid.PropertyChanged += Grid_PropertyChanged;
             //renderer.Render(new BaseControl[] { dialog, topBar, bottomBar });
 
             testModel.Text = "new text";
