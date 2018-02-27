@@ -38,6 +38,7 @@ namespace ConsoleFrontend.Models
         public override List<string> Render()
         {
             var builder = new List<string>();
+
             // Header
             //              ┌   ─   ┤   _   $NAME           _   ├   ─   ┐
             int minLength = 1 + 1 + 1 + 1 + Name.Length + 1 + 1 + 1 + 1;
@@ -68,24 +69,20 @@ namespace ConsoleFrontend.Models
         }
     }
 
+    /// <summary>
+    /// Dialog whose content gets updated if the data source changes.
+    /// </summary>
     public class BindingDialog : Dialog
     {
-        private string _text;
-        public string Text { get { return _text; } set { _text = value; NotifyPropertyChanged(); } }
-
-        private string _targetProperty;
-        private PropertyInfo[] _properties;
-
-
         public BindingDialog(INotifyPropertyChanged target, string propertyName)
         {
-            this.Name = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            this.Name = Assembly.GetExecutingAssembly().GetName().Name;
             this.Content = new TextView(target, propertyName);
         }
     }
     
     /// <summary>
-    /// Dialog that contains
+    /// Dialog that contains static text.
     /// </summary>
     public sealed class MessageDialog : Dialog
     {
