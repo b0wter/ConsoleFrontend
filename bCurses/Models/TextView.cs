@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     public class TextView : BaseControl
     {
+        private readonly static string[] LineSeparators = new string[] {Environment.NewLine };
+
         private string _text;
         /// <summary>
         /// Text content of this control.
@@ -57,7 +59,7 @@ namespace ConsoleFrontend.Models
             var lines = Enumerable.Range(0, rows)
                         .Select(index => Text.Skip(index * Parent.ContentWidth).Take(Parent.ContentWidth))
                         .Select(x => string.Concat(x))
-                        .SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None))
+                        .SelectMany(x => x.Split(LineSeparators, StringSplitOptions.None))
                         .ToList();
             
             if (lines.Count > Parent.ContentHeight)

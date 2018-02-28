@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
     public class Singleton<T> where T : new()
     {

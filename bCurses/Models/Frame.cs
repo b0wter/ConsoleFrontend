@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     public class Frame : BaseControl
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using ConsoleFrontend.Helpers;
+using bCurses.Helpers;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     /// <summary>
     /// A status bar renders information in the following form:

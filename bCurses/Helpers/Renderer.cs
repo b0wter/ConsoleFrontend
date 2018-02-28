@@ -1,13 +1,13 @@
-﻿using ConsoleFrontend.Models;
+﻿using bCurses.Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
-    class Renderer
+    public class Renderer
     {
         private readonly DisplayConfiguration _displayConfiguration = new DisplayConfiguration();
 

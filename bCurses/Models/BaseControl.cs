@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleFrontend.Helpers;
+using bCurses.Helpers;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     /// <summary>
     /// Possible ways for a control to be anchored in its parent (horizontally).

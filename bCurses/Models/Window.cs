@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleFrontend.Helpers;
+using bCurses.Helpers;
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     /// <summary>
     /// Windows act as permanent screen areas that contain grouped information.

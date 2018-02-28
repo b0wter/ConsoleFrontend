@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
     public class Binding
     {

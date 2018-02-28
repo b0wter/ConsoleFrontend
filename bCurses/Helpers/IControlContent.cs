@@ -2,9 +2,9 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using ConsoleFrontend.Models;
+using bCurses.Models;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
     [Obsolete("Just kept for reference.")]
     public abstract class BaseContent : BaseModel

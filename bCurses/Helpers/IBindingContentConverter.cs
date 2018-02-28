@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
     /// <summary>
     /// Provides a way to apply custom logic to a binding.

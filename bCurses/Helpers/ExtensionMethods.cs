@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace ConsoleFrontend.Helpers
+namespace bCurses.Helpers
 {
     public static class ExtensionMethods
     {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using ConsoleFrontend.Helpers;
+using bCurses.Helpers;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     ///<summary>
     /// Dialoge act as popups to display a small amount of information in the following form:

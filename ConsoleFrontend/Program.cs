@@ -1,8 +1,8 @@
-﻿using ConsoleFrontend.Helpers;
-using ConsoleFrontend.Models;
+﻿using bCurses.Helpers;
+using bCurses.Models;
 using System;
 
-namespace ConsoleFrontend
+namespace ConsoleFrontEnd
 {
     class Program
     {

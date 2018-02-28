@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     class TestModel : BaseModel
     {

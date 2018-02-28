@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace ConsoleFrontend.Models
+namespace bCurses.Models
 {
     /// <summary>
     /// Base class for all models that implements <see cref="INotifyPropertyChanged"/>.
