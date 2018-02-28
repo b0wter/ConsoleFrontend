@@ -72,8 +72,8 @@ namespace ConsoleFrontend.Models
         /// <returns></returns>
         public override List<string> Render()
         {
-            var cellWidth =  (int)Math.Floor(ContentWidth  / (float)GridColDefinitions.Count);
-            var cellHeight = (int)Math.Floor(ContentHeight / (float)GridRowDefinitions.Count);
+            var cellWidth =  (int)Math.Floor(ContentWidth  / Math.Max(1.0f, GridColDefinitions.Count));
+            var cellHeight = (int)Math.Floor(ContentHeight / Math.Max(1.0f, GridRowDefinitions.Count));
 
             foreach (var cell in GridCells)
             {

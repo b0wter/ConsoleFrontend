@@ -11,6 +11,7 @@ namespace ConsoleFrontend
 
         private static Renderer _renderer = new Renderer();
         private static Grid _grid;
+        private static BaseControl _root;
 
         static void Main(string[] args)
         {
@@ -33,8 +34,9 @@ namespace ConsoleFrontend
             _grid.SetContentAt(0, 1, dialog2);
             */
 
-            var root = new Frame();
-            root.Content = dialog1;
+            _root = new Frame();
+            _root.Content = dialog1;
+            _root.PropertyChanged += Grid_PropertyChanged;
             /*
             var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.sadfsadfsafdsafdsafsafdasfdsafdsafdlkjlqwjrlwqjrljwqrl;wqjre;lqwjr;lwqjre;lwqjre;lwqjoicoeboiebrqwewqwqfewqefwqefwqfewqfwqfejl;j;lj;ljas;ofdijsa;ofdjw;oejowqeoweowoqiejqofeqe", 3, 3, 20, 6);
             //var dialog = new MessageDialog($"Dies ist ein:{Environment.NewLine}Test.");
@@ -58,7 +60,7 @@ namespace ConsoleFrontend
             };
             */
 
-            _renderer.Render(root);
+            _renderer.Render(_root);
             //_renderer.Render(_grid);
             //_grid.PropertyChanged += Grid_PropertyChanged;
             //renderer.Render(new BaseControl[] { dialog, topBar, bottomBar });
@@ -75,7 +77,7 @@ namespace ConsoleFrontend
         private static void Grid_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "Content" || e.PropertyName == "Text")
-                _renderer.Render(_grid);
+                _renderer.Render(_root);
         }
     }
 }

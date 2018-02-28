@@ -71,7 +71,7 @@ namespace ConsoleFrontend.Models
             get
             {
                 if (StretchVertical)
-                    return Parent.Height;
+                    return Parent.ContentHeight;
                 else
                     return Height;
             }
@@ -85,7 +85,7 @@ namespace ConsoleFrontend.Models
             get
             {
                 if (StretchHorizontal)
-                    return Parent.ActualWidth;
+                    return Parent.ContentWidth;
                 else
                     return Width;
             }
