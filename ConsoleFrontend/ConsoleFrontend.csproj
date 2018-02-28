@@ -12,7 +12,4 @@
   <ItemGroup>
     <ProjectReference Include="..\bCurses\bCurses.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
 </Project>

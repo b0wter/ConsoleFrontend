@@ -1,5 +1,6 @@
 ﻿using bCurses.Helpers;
 using bCurses.Models;
+using ConsoleFrontend.Helpers;
 using System;
 
 namespace ConsoleFrontEnd
@@ -18,10 +19,12 @@ namespace ConsoleFrontEnd
             Console.Clear();
 
             var testModel = new TestModel("Testcontent");
+            var watch = new Watch();
 
             var binding = new Binding(testModel, nameof(TestModel.Text));
+            var timeBinding = new Binding(watch, nameof(watch.Time));
 
-            var dialog1 = new BindingWindow(binding, binding, binding);
+            var dialog1 = new BindingWindow(binding, binding, binding, timeBinding);
             var dialog2 = new BindingDialog(testModel, nameof(TestModel.Text));
 
             /*
